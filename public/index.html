@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Fake Bank</h1>
+
+<label>Email</label>
+<input aria-label="Email" />
+
+<label>Password</label>
+<input aria-label="Password" type="password" />
+
+<button>Login</button>
+
+<div id="dashboard" hidden>
+  <h2>Dashboard</h2>
+
+  <label>Amount</label>
+  <input aria-label="Amount" />
+
+  <label>IBAN</label>
+  <input aria-label="IBAN" />
+
+  <button>Send Transfer</button>
+
+  <p role="status"></p>
+</div>
+
+<script>
+async function login() {
+  const res = await fetch('/api/login', { method: 'POST' });
+
+  if (res.status === 200) {
+    document.getElementById('dashboard').hidden = false;
+  }
+}
+
+document.querySelector('button').onclick = login;
+
+async function transfer() {
+  const res = await fetch('/api/transfers', { method: 'POST' });
+
+  if (res.status === 200) {
+    document.querySelector('[role="status"]').innerText = 'Transfer successful';
+  }
+}
+
+document.querySelectorAll('button')[1].onclick = transfer;
+</script>
+
+</body>
+</html>
